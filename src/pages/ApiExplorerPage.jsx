@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Main page for the Rick and Morty API Explorer module (`/api`).
+ * Coordinates debounced character search, abortable data fetching, responsive grid
+ * rendering, loading/empty/error UI states, and the character detail modal.
+ */
+
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CharacterDetailModal } from '../components/CharacterDetailModal';
@@ -8,8 +14,18 @@ import { getStatusConfig } from '../utils/statusStyles';
 const SKELETON_ITEMS = Array.from({ length: 8 }, (_, index) => index);
 
 /**
- * Main explorer page for the Rick and Morty API module.
- * Features debounced search, abortable requests, responsive card grid, and detail modal.
+ * Rick and Morty character explorer view.
+ *
+ * Responsibilities:
+ * - Provides a sticky header with a "Volver al Menú" navigation button and a
+ *   debounced search input (3000ms delay) with a quick-clear (`X`) button.
+ * - Cancels superseded API requests using `AbortController` to prevent race conditions.
+ * - Renders skeleton placeholders during loading, a friendly empty state on zero
+ *   matches, an error alert with a retry action on network failures, and a responsive
+ *   1-to-4 column character card grid.
+ * - Opens `CharacterDetailModal` when a character card is clicked or activated via keyboard.
+ *
+ * @returns {JSX.Element} The rendered API Explorer page.
  */
 export function ApiExplorerPage() {
   const navigate = useNavigate();
@@ -53,14 +69,17 @@ export function ApiExplorerPage() {
     };
   }, [debouncedQuery, retryToken]);
 
+  /** Clears the search input value. */
   const handleClearSearch = () => {
     setSearchTerm('');
   };
 
+  /** Increments the retry token to re-trigger the current character fetch. */
   const handleRetry = () => {
     setRetryToken((prev) => prev + 1);
   };
 
+  /** Closes the character detail modal. Memoized to keep effect dependencies stable. */
   const handleCloseModal = useCallback(() => {
     setSelectedCharacter(null);
   }, []);

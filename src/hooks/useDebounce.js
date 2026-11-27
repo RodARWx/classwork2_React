@@ -1,13 +1,21 @@
+/**
+ * @fileoverview Custom React hook for debouncing rapidly changing values (such as search inputs).
+ * Prevents excessive API requests while the user is actively typing.
+ */
+
 import { useEffect, useState } from 'react';
 
 /**
- * Delays updating the returned value until `delay` ms have passed
- * without `value` changing.
+ * Delays propagating updates to `value` until `delay` milliseconds have elapsed
+ * since the last change.
+ *
+ * Whenever `value` or `delay` changes before the timer fires, the previous timeout
+ * is cleared via `clearTimeout` in the `useEffect` cleanup function.
  *
  * @template T
- * @param {T} value - Input value to debounce.
- * @param {number} [delay=3000] - Debounce delay in milliseconds.
- * @returns {T} Debounced value.
+ * @param {T} value - The reactive value to debounce.
+ * @param {number} [delay=3000] - Debounce wait time in milliseconds.
+ * @returns {T} The latest debounced value.
  */
 export function useDebounce(value, delay = 3000) {
   const [debouncedValue, setDebouncedValue] = useState(value);

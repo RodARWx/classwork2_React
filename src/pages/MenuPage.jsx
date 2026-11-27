@@ -1,5 +1,11 @@
+/**
+ * @fileoverview Temporary Main Menu placeholder page used to test navigation
+ * to `/api` until the group's MainView module is integrated.
+ */
+
 import { Link } from 'react-router-dom';
 
+/** @type {Array<{ name: string, description: string, to?: string, available: boolean }>} */
 const MENU_MODULES = [
   { name: 'SUM', description: 'Módulo de suma (compañero)', available: false },
   { name: 'Calculator', description: 'Módulo de calculadora (compañero)', available: false },
@@ -13,8 +19,9 @@ const MENU_MODULES = [
 ];
 
 /**
- * Temporary main menu placeholder to test navigation to /api
- * until the group's MainView module is merged.
+ * Renders the temporary Main Menu with a functional link to the API Explorer (`/api`).
+ *
+ * @returns {JSX.Element} The rendered menu view.
  */
 export function MenuPage() {
   return (

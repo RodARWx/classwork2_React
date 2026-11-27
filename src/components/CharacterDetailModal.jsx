@@ -1,9 +1,32 @@
+/**
+ * @fileoverview Accessible modal dialog component that displays detailed character
+ * information when a user selects a character card in the API Explorer.
+ */
+
 import { useEffect } from 'react';
 import { getStatusConfig } from '../utils/statusStyles';
 
 /**
- * Centered modal displaying full character details.
- * Supports closing via Escape key, backdrop click, or the top-right close button.
+ * @typedef {object} CharacterDetailModalProps
+ * @property {import('../services/rickAndMortyApi').Character | null} character - Selected character
+ *   to display. When `null`, the modal renders nothing.
+ * @property {() => void} onClose - Callback invoked to close the modal (triggered by Escape key,
+ *   backdrop click, or the top-right close button).
+ */
+
+/**
+ * Centered modal displaying a character's full profile (image, status, species,
+ * optional type, gender, origin, last known location, and episode count).
+ *
+ * Accessibility & Interaction:
+ * - Uses `role="dialog"` and `aria-modal="true"` linked to the modal title.
+ * - Registers a `keydown` listener to close when the user presses `Escape`.
+ * - Locks body scrolling while open and restores it on close/unmount.
+ * - Closes when clicking the semi-transparent backdrop while preventing clicks inside
+ *   the modal card from bubbling up via `event.stopPropagation()`.
+ *
+ * @param {CharacterDetailModalProps} props - Component props.
+ * @returns {JSX.Element | null} Rendered modal overlay or `null` when closed.
  */
 export function CharacterDetailModal({ character, onClose }) {
   useEffect(() => {
