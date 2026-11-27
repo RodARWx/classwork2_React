@@ -6,7 +6,7 @@ import {
   formatResult,
   isOperator,
   toggleSign,
-} from '../utils/calculatorEngine';
+} from './calculatorEngine';
 import HistoryPanel from './HistoryPanel';
 import UnitConverter from './UnitConverter';
 

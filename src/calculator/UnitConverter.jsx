@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronLeft, ArrowUpDown } from 'lucide-react';
-import { CONVERTER_CATEGORIES, convertUnit } from '../utils/unitConverterData';
+import { CONVERTER_CATEGORIES, convertUnit } from './unitConverterData';
 
 export default function UnitConverter({ isDark, onBack }) {
   const categoryKeys = Object.keys(CONVERTER_CATEGORIES);
