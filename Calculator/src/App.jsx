@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { ArrowLeft, Moon, Sun } from 'lucide-react';
-import SamsungCalculator from './SamsungCalculator';
+import SamsungCalculator from './calculator/SamsungCalculator';
 
-export default function Calculator({ onBack }) {
+export function App({ onBack }) {
   const [theme, setTheme] = useState('dark');
   const isDark = theme === 'dark';
 
@@ -49,3 +49,5 @@ export default function Calculator({ onBack }) {
     </main>
   );
 }
+
+export default App;
