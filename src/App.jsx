@@ -11,8 +11,8 @@ import {
 } from 'lucide-react';
 import SumModule from './components/Sum/SumModule';
 import CalculatorModule from './components/Calculator/CalculatorModule';
+import ApiModule from './components/Api/ApiModule';
 import FormModule from './components/Form/FormModule';
-import { ApiExplorerPage } from './pages/ApiExplorerPage';
 
 const MENU_ITEMS = [
   {
@@ -36,8 +36,8 @@ const MENU_ITEMS = [
     title: 'Api',
     description: 'Búsqueda con debounce, tarjetas y popup',
     icon: Globe,
-    owner: 'Mi módulo (Listo)',
-    ready: true,
+    owner: 'Compañero',
+    ready: false,
   },
   {
     id: 'form',
@@ -49,10 +49,6 @@ const MENU_ITEMS = [
   },
 ];
 
-/**
- * Root application shell. Navigation is handled with local React state only,
- * so no external routing library is required.
- */
 export function App() {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState('');
@@ -80,10 +76,6 @@ export function App() {
 
   if (user && activeView === 'calculator') {
     return <CalculatorModule onBack={() => setActiveView('menu')} />;
-  }
-
-  if (user && activeView === 'api') {
-    return <ApiExplorerPage onBack={() => setActiveView('menu')} />;
   }
 
   return (
@@ -183,8 +175,8 @@ export function App() {
                   Menú Principal
                 </h1>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem' }}>
-                  Selecciona un módulo para abrirlo. <strong>Calculator</strong>,{' '}
-                  <strong>Form</strong> y <strong>Api</strong> ya están integrados.
+                  Selecciona un módulo para abrirlo. <strong>Calculator</strong> y{' '}
+                  <strong>Form</strong> ya están integrados.
                 </p>
 
                 <div className="menu-grid">
@@ -215,6 +207,7 @@ export function App() {
             )}
 
             {activeView === 'sum' && <SumModule />}
+            {activeView === 'api' && <ApiModule />}
             {activeView === 'form' && <FormModule />}
           </motion.div>
         )}
