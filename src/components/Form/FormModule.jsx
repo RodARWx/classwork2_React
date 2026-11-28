@@ -292,6 +292,7 @@ function ReactHookFormView({ onBackendSuccess }) {
     mode: 'onTouched',
   });
 
+  // oxlint-disable-next-line react/incompatible-library -- react-hook-form's watch() intentionally subscribes to live form values; this component is not memoized by React Compiler.
   const values = watch();
 
   const touchedMap = Object.keys(INITIAL_FORM_VALUES).reduce((acc, key) => {

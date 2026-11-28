@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Root application shell for the class project. It keeps the simulated
+ * login, the module menu, and the state-based integration point that mounts the Rick
+ * and Morty API Explorer when the user selects the "Api" tile.
+ */
+
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -52,6 +58,15 @@ const MENU_ITEMS = [
 /**
  * Root application shell. Navigation is handled with local React state only,
  * so no external routing library is required.
+ *
+ * State flow:
+ * - `user` gates access to the workspace.
+ * - `activeView` decides which module is rendered ('menu', 'sum', 'form',
+ *   'calculator', or 'api').
+ * - Selecting the "Api" tile sets `activeView` to 'api', which mounts
+ *   `ApiExplorerPage` (the former `/api` route, now a state-driven view).
+ *
+ * @returns {JSX.Element} The rendered application shell.
  */
 export function App() {
   const [user, setUser] = useState(null);
@@ -60,6 +75,12 @@ export function App() {
   const [loginError, setLoginError] = useState('');
   const [activeView, setActiveView] = useState('menu');
 
+  /**
+   * Validates the simulated credentials and opens the module workspace.
+   *
+   * @param {import('react').FormEvent<HTMLFormElement>} e - Submit event from the login form.
+   * @returns {void}
+   */
   const handleLogin = (e) => {
     e.preventDefault();
     if (!username.trim() || !password.trim()) {
@@ -71,6 +92,11 @@ export function App() {
     setActiveView('menu');
   };
 
+  /**
+   * Clears the simulated session and returns to the login screen.
+   *
+   * @returns {void}
+   */
   const handleLogout = () => {
     setUser(null);
     setUsername('');
@@ -82,6 +108,8 @@ export function App() {
     return <CalculatorModule onBack={() => setActiveView('menu')} />;
   }
 
+  // Integration point for the API module: the old `/api` URL route was replaced
+  // by this state-driven branch, and onBack returns to the group's Main Menu.
   if (user && activeView === 'api') {
     return <ApiExplorerPage onBack={() => setActiveView('menu')} />;
   }

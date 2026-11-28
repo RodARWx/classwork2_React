@@ -1,5 +1,6 @@
 /**
- * @fileoverview Main page for the Rick and Morty API Explorer module (`/api`).
+ * @fileoverview Main page for the Rick and Morty API Explorer module. It is mounted
+ * from the group's Main Menu through local state navigation (the former `/api` route).
  * Coordinates debounced character search, abortable data fetching, responsive grid
  * rendering, loading/empty/error UI states, and the character detail modal.
  */
@@ -42,6 +43,12 @@ export function ApiExplorerPage({ onBack }) {
   useEffect(() => {
     const controller = new AbortController();
 
+    /**
+     * Requests the current debounced query and publishes one of the four UI states.
+     * AbortError is ignored because a newer effect run already superseded this request.
+     *
+     * @returns {Promise<void>} Resolves when the request settles or is cancelled.
+     */
     async function loadCharacters() {
       setIsLoading(true);
       setError(null);
@@ -68,17 +75,31 @@ export function ApiExplorerPage({ onBack }) {
     };
   }, [debouncedQuery, retryToken]);
 
-  /** Clears the search input value. */
+  /**
+   * Resets the controlled search input, which restarts the debounce cycle.
+   *
+   * @returns {void}
+   */
   const handleClearSearch = () => {
     setSearchTerm('');
   };
 
-  /** Increments the retry token to re-trigger the current character fetch. */
+  /**
+   * Increments the retry token to re-trigger the current character fetch
+   * without changing the active query.
+   *
+   * @returns {void}
+   */
   const handleRetry = () => {
     setRetryToken((prev) => prev + 1);
   };
 
-  /** Closes the character detail modal. Memoized to keep effect dependencies stable. */
+  /**
+   * Closes the character detail modal. Memoized so the modal's keydown effect
+   * does not re-register on every parent render.
+   *
+   * @returns {void}
+   */
   const handleCloseModal = useCallback(() => {
     setSelectedCharacter(null);
   }, []);

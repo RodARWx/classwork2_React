@@ -61,5 +61,6 @@ desktop.ini
 # Contexto local
 Contexto/
 
-# Guía técnica del módulo API (solo local)
+# Guías técnicas del módulo API (solo local)
 docs/GUIA_MODULO_API.md
+docs/GUIA_COMPLETA_MODULO_API.md
